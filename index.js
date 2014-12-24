@@ -6,7 +6,7 @@ var app = express();
 var fs = require('fs');
 var jimp = require('jimp');
 
-app.get('/', function (req, res) {
+var imageware = function (req, res) {
 	var fileName = req.query.name;
 	var folder = req.query.folder;
 	var result;
@@ -28,14 +28,14 @@ app.get('/', function (req, res) {
 			}
 			
 			result.write(folder + '/' + fileName, function () {
-				res.send('<img src="' + filePath + '"/>');
+				res.sendFile(filePath, {root: __dirname});
 			});
 			
 		});
 	} else {
-		res.send('<img src="' + filePath + '"/>');
+		res.sendFile(filePath, {root: __dirname});
 	}
-});
+};
 
 var server = app.listen(3000, function() {
 	var host = server.address().address;
@@ -45,3 +45,4 @@ var server = app.listen(3000, function() {
 });
 
 app.use(express.static(__dirname));
+app.use('/photo', imageware);
