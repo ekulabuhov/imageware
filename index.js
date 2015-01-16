@@ -5,6 +5,8 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 var jimp = require('jimp');
+var ExifImage = require('exif').ExifImage;
+var multer  = require('multer');
 
 var imageware = function (req, res) {
 	var fileName = req.query.name;
@@ -46,3 +48,4 @@ var server = app.listen(3000, function() {
 
 app.use(express.static(__dirname));
 app.use('/photo', imageware);
+app.use(multer({ dest: './uploads'}));

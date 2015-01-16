@@ -1,1 +1,10 @@
 <a href="photo?name=lenna.png&folder=small&fn=resize&w=220&h=220">Lena resize 220x220</a>
+
+<form id        =  "uploadForm"
+     enctype   =  "multipart/form-data"
+     action    =  "/api/photo"
+     method    =  "post"
+>
+<input type="file" name="userPhoto" />
+<input type="submit" value="Upload Image" name="submit">
+</form>
