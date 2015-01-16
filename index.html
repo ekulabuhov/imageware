@@ -1,10 +1,30 @@
-<a href="photo?name=lenna.png&folder=small&fn=resize&w=220&h=220">Lena resize 220x220</a>
+<html>
 
-<form id        =  "uploadForm"
-     enctype   =  "multipart/form-data"
-     action    =  "/api/photo"
-     method    =  "post"
->
-<input type="file" name="userPhoto" />
-<input type="submit" value="Upload Image" name="submit">
-</form>
+<head>
+    <script type="text/javascript" src="bower_components/dropzone/downloads/dropzone.js"></script>
+    <link rel="stylesheet" type="text/css" href="bower_components/dropzone/downloads/css/dropzone.css" />
+    <link rel="stylesheet" type="text/css" href="bower_components/dropzone/downloads/css/basic.css" />
+
+    <script type="text/javascript">
+        Dropzone.options.myDropzone = {
+            init: function () {
+                this.on("success", function (file, responseText) {
+                    // Handle the responseText here. For example, add the text to the preview element:
+                    var img = document.createElement("img");
+                    img.src = "uploads/" + responseText;
+                    file.previewTemplate.appendChild(img);
+                });
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <form id="myDropzone" enctype="multipart/form-data" action="/api/photo" method="post" class="dropzone">
+
+    </form>
+
+
+</body>
+
+</html>
