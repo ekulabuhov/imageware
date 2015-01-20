@@ -11,8 +11,13 @@
                 this.on("success", function (file, responseText) {
                     // Handle the responseText here. For example, add the text to the preview element:
                     var img = document.createElement("img");
-                    img.src = "uploads/" + responseText;
+                    img.src = "uploads/" + responseText.originalName;
+                    img.width = 500;
                     file.previewTemplate.appendChild(img);
+
+                    var exifSpan = document.createElement("pre");
+                    exifSpan.innerText = JSON.stringify(responseText.exifData, undefined, 4);
+                    file.previewTemplate.appendChild(exifSpan);
                 });
             }
         };

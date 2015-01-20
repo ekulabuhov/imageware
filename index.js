@@ -56,10 +56,19 @@ app.post('/api/photo', multer(
     dest: './uploads', 
     onFileUploadComplete: function (file) {
         console.log(file.fieldname + ' uploaded to  ' + file.path + 'size ' + file.buffer.length);
-        new ExifImage({ image : file.buffer }, function (error, exifData) {
+    },
+    inMemory: true
+}));
+
+app.post('/api/photo', function (req, res, next) {
+    var file = req.files.file,
+    response = {};
+
+    new ExifImage({ image : file.buffer }, function (error, exifData) {
             if (error)
-                console.log('Error: '+error.message);
+                console.log('ExifError: '+error.message);
             else {
+                response.exifData = exifData;
                 console.log(exifData); 
                 new jimp(file.buffer, function() { 
                     // EK: refer to EXIF_Orientations.jpg 
@@ -69,12 +78,8 @@ app.post('/api/photo', multer(
                 });
             }
         });
-    },
-    inMemory: true
-}));
-
-app.post('/api/photo', function (req, res, next) {
-    res.send(req.files.file.originalname);
+    response.originalName = file.originalname;
+    res.send(response);
     next();
 });
 
@@ -97,5 +102,7 @@ function fixOrientation(jimpImage, orientation) {
             return jimpImage.horizontalFlip().rotateCW();
         case 8:
             return jimpImage.rotateCW().horizontalFlip().verticalFlip();
+        default:
+            return jimpImage;
     }
 }
