@@ -1,3 +1,3 @@
 linux-tools-common
 linux-tools-generic
-linux-tools-3.13.0-85-generic
+linux-tools-`uname -r`
