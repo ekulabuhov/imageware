@@ -1,1 +1,2 @@
-linux-tools linux-generic
+linux-tools-common
+linux-tools-generic
