@@ -1,4 +1,4 @@
-/*global require,console,__dirname,process*/
+/*global require,console,__dirname*/
 'use strict';
 
 var express = require('express');
@@ -7,13 +7,6 @@ var fs = require('fs');
 var jimp = require('jimp');
 var ExifImage = require('exif').ExifImage;
 var multer  = require('multer');
-
-if(process.env.NODETIME_ACCOUNT_KEY) {
-  require('nodetime').profile({
-    accountKey: process.env.NODETIME_ACCOUNT_KEY,
-    appName: 'EXIF Test' // optional
-  });
-}
 
 var imageware = function (req, res) {
     var fileName = req.query.name;
@@ -77,7 +70,7 @@ app.post('/api/photo', function (req, res, next) {
             else {
                 response.exifData = exifData;
                 console.log(exifData); 
-                if (exifData && exifData.image && exifData.image.Orientation > 1) {
+                if (exifData && exifData.image) {
                     new jimp(file.buffer, function() { 
                         // EK: refer to EXIF_Orientations.jpg 
                         // (taken from http://www.daveperrett.com/articles/2012/07/28/exif-orientation-handling-is-a-ghetto/)
